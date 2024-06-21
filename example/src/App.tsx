@@ -1,18 +1,38 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-money-animation';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import MoneyAnimation from 'react-native-money-animation';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
-  React.useEffect(() => {
-    multiply(3, 7).then(setResult);
-  }, []);
+  const [value, setValue] = useState<number>(329.06);
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <MoneyAnimation value={value} />
+
+      <View>
+        <TouchableOpacity
+          onPress={() => {
+            setValue(341.06);
+          }}
+        >
+          <Text>Go to 341.06</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setValue(220.4);
+          }}
+        >
+          <Text>Go to 220.40</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setValue(220.62);
+          }}
+        >
+          <Text>Go to 220.62</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
