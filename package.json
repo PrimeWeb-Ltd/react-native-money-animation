@@ -74,8 +74,7 @@
     "typescript": "^5.2.2"
   },
   "resolutions": {
-    "@types/react": "^18.2.44",
-    "react-native-reanimated": "3.10.1"
+    "@types/react": "^18.2.44"
   },
   "peerDependencies": {
     "react": "*",
@@ -152,8 +151,5 @@
       "module",
       "typescript"
     ]
-  },
-  "dependencies": {
-    "react-native-reanimated": "^3.12.1"
   }
 }

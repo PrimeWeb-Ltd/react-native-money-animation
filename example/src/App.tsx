@@ -32,6 +32,20 @@ export default function App() {
         >
           <Text>Go to 220.62</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setValue(1493.41);
+          }}
+        >
+          <Text>Go to 1493.41</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setValue(20.62);
+          }}
+        >
+          <Text>Go to 20.62</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

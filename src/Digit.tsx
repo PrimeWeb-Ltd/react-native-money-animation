@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Text } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import React, { useEffect, useRef, useState } from 'react';
+import { Text, Animated } from 'react-native';
 import { generateNumbersFrom, isSpecialChar } from './utils/digits';
 
 interface DigitProps {
   digit: string;
-  newDigit?: string;
 }
 
-const Digit = ({ digit, newDigit }: DigitProps) => {
-  const offset = useSharedValue(0);
+const Digit = ({ digit }: DigitProps) => {
+  const cachedDigit = useRef<string>(digit);
+  const transition = useRef(new Animated.Value(0)).current;
   const [topDigits, setTopDigits] = useState<number[]>(
     generateNumbersFrom(Number(digit), true)
   );
@@ -21,33 +16,42 @@ const Digit = ({ digit, newDigit }: DigitProps) => {
     generateNumbersFrom(Number(digit), false)
   );
 
-  const animatedStyles = useAnimatedStyle(() => ({
-    transform: [{ translateY: offset.value }],
-  }));
-
   useEffect(() => {
-    if (digit === newDigit) {
-      setTopDigits(generateNumbersFrom(Number(newDigit), true));
-      setBottomDigits(generateNumbersFrom(Number(newDigit), false));
-      offset.value = withTiming(0, { duration: 1 });
-    }
-  }, [digit, newDigit]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    if (!isSpecialChar(digit) && digit !== newDigit) {
-      const topIndex = topDigits.findIndex((val) => val === Number(newDigit));
+    if (!isSpecialChar(digit) && digit !== cachedDigit.current) {
+      const topIndex = topDigits.findIndex((val) => val === Number(digit));
       const bottomIndex = bottomDigits.findIndex(
-        (val) => val === Number(newDigit)
+        (val) => val === Number(digit)
       );
 
       if (topIndex < bottomIndex) {
-        offset.value = withTiming((topIndex + 1) * 24, { duration: 600 });
+        Animated.timing(transition, {
+          toValue: (topIndex + 1) * 24,
+          duration: 600,
+          useNativeDriver: true,
+        }).start(({ finished }) => {
+          if (finished) {
+            cachedDigit.current = digit;
+            setTopDigits(generateNumbersFrom(Number(digit), true));
+            setBottomDigits(generateNumbersFrom(Number(digit), false));
+            transition.setValue(0);
+          }
+        });
       } else {
-        offset.value = withTiming(-(bottomIndex + 1) * 24, { duration: 600 });
+        Animated.timing(transition, {
+          toValue: -(bottomIndex + 1) * 24,
+          duration: 600,
+          useNativeDriver: true,
+        }).start(({ finished }) => {
+          if (finished) {
+            cachedDigit.current = digit;
+            setTopDigits(generateNumbersFrom(Number(digit), true));
+            setBottomDigits(generateNumbersFrom(Number(digit), false));
+            transition.setValue(0);
+          }
+        });
       }
     }
-  }, [digit, newDigit]); // eslint-disable-line react-hooks/exhaustive-deps
-
+  }, [digit]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <Animated.View
       style={[
@@ -57,7 +61,9 @@ const Digit = ({ digit, newDigit }: DigitProps) => {
           justifyContent: 'center',
           width: 20,
         },
-        animatedStyles,
+        {
+          transform: [{ translateY: transition }],
+        },
       ]}
     >
       {topDigits.map((n, i) => (
@@ -74,11 +80,10 @@ const Digit = ({ digit, newDigit }: DigitProps) => {
       ))}
       <Text
         style={{
-          // backgroundColor: 'yellow',
           fontSize: 24,
         }}
       >
-        {digit}
+        {cachedDigit.current}
       </Text>
       {bottomDigits.map((n, i) => (
         <Text
