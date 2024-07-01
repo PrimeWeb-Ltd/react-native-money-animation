@@ -1,6 +1,6 @@
 {
   "name": "react-native-money-animation",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "React Native package for money animation",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
