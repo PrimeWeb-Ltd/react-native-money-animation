@@ -59,10 +59,8 @@ const Digit = ({ digit, style, separator }: DigitProps) => {
   return (
     <Animated.View
       style={[
+        initialStyles.wrapper,
         {
-          position: 'relative',
-          alignItems: 'center',
-          justifyContent: 'center',
           width: isSpecialChar(digit)
             ? (fontSize * 32) / 100
             : (fontSize * 62) / 100,
@@ -115,5 +113,13 @@ const Digit = ({ digit, style, separator }: DigitProps) => {
     </Animated.View>
   );
 };
+
+const initialStyles = StyleSheet.create({
+  wrapper: {
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default Digit;

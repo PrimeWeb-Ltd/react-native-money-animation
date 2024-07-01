@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import type { StyleProp, ViewStyle, TextStyle } from 'react-native';
 import Digit from './Digit';
 
@@ -25,15 +25,7 @@ const MoneyAnimation = ({
   }, [value]);
 
   return (
-    <View
-      style={[
-        {
-          flexDirection: 'row-reverse',
-          overflow: 'hidden',
-        },
-        wrapperStyle,
-      ]}
-    >
+    <View style={[, initialStyles.container, wrapperStyle]}>
       {numbers.map((num, index) => {
         return (
           <Digit
@@ -47,5 +39,12 @@ const MoneyAnimation = ({
     </View>
   );
 };
+
+const initialStyles = StyleSheet.create({
+  container: {
+    flexDirection: 'row-reverse',
+    overflow: 'hidden',
+  },
+});
 
 export default MoneyAnimation;
