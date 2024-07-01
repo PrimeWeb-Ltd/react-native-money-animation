@@ -8,7 +8,15 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <MoneyAnimation value={value} />
+      <MoneyAnimation
+        value={value}
+        style={{
+          fontSize: 52,
+          fontWeight: 700,
+          lineHeight: 60,
+          color: '#fff',
+        }}
+      />
 
       <View>
         <TouchableOpacity
@@ -16,35 +24,42 @@ export default function App() {
             setValue(341.06);
           }}
         >
-          <Text>Go to 341.06</Text>
+          <Text>Go to 341,06</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             setValue(220.4);
           }}
         >
-          <Text>Go to 220.40</Text>
+          <Text>Go to 220,40</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             setValue(220.62);
           }}
         >
-          <Text>Go to 220.62</Text>
+          <Text>Go to 220,62</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             setValue(1493.41);
           }}
         >
-          <Text>Go to 1493.41</Text>
+          <Text>Go to 1493,41</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            setValue(20.62);
+            setValue(17.62);
           }}
         >
-          <Text>Go to 20.62</Text>
+          <Text>Go to 17,62</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setValue(57.88);
+          }}
+        >
+          <Text>Go to 57,88</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -56,6 +71,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#64c59d',
   },
   box: {
     width: 60,

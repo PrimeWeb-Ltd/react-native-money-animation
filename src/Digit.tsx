@@ -1,12 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Text, Animated } from 'react-native';
+import { Text, Animated, StyleSheet } from 'react-native';
+import type { StyleProp, TextStyle } from 'react-native';
 import { generateNumbersFrom, isSpecialChar } from './utils/digits';
 
 interface DigitProps {
   digit: string;
+  style: StyleProp<TextStyle>;
+  separator?: string;
 }
 
-const Digit = ({ digit }: DigitProps) => {
+const Digit = ({ digit, style, separator }: DigitProps) => {
   const cachedDigit = useRef<string>(digit);
   const transition = useRef(new Animated.Value(0)).current;
   const [topDigits, setTopDigits] = useState<number[]>(
@@ -15,6 +18,7 @@ const Digit = ({ digit }: DigitProps) => {
   const [bottomDigits, setBottomDigits] = useState<number[]>(
     generateNumbersFrom(Number(digit), false)
   );
+  const fontSize = StyleSheet.flatten(style)?.fontSize || 24;
 
   useEffect(() => {
     if (!isSpecialChar(digit) && digit !== cachedDigit.current) {
@@ -25,7 +29,7 @@ const Digit = ({ digit }: DigitProps) => {
 
       if (topIndex < bottomIndex) {
         Animated.timing(transition, {
-          toValue: (topIndex + 1) * 24,
+          toValue: (topIndex + 1) * fontSize,
           duration: 600,
           useNativeDriver: true,
         }).start(({ finished }) => {
@@ -38,7 +42,7 @@ const Digit = ({ digit }: DigitProps) => {
         });
       } else {
         Animated.timing(transition, {
-          toValue: -(bottomIndex + 1) * 24,
+          toValue: -(bottomIndex + 1) * fontSize,
           duration: 600,
           useNativeDriver: true,
         }).start(({ finished }) => {
@@ -59,7 +63,9 @@ const Digit = ({ digit }: DigitProps) => {
           position: 'relative',
           alignItems: 'center',
           justifyContent: 'center',
-          width: 20,
+          width: isSpecialChar(digit)
+            ? (fontSize * 32) / 100
+            : (fontSize * 62) / 100,
         },
         {
           transform: [{ translateY: transition }],
@@ -68,30 +74,39 @@ const Digit = ({ digit }: DigitProps) => {
     >
       {topDigits.map((n, i) => (
         <Text
-          style={{
-            position: 'absolute',
-            top: -(24 * (i + 1)),
-            fontSize: 24,
-          }}
+          style={[
+            style,
+            {
+              position: 'absolute',
+              top: -(fontSize * (i + 1)),
+              fontSize: fontSize,
+            },
+          ]}
           key={n}
         >
           {n}
         </Text>
       ))}
       <Text
-        style={{
-          fontSize: 24,
-        }}
+        style={[
+          style,
+          {
+            fontSize: fontSize,
+          },
+        ]}
       >
-        {cachedDigit.current}
+        {isSpecialChar(digit) ? separator : cachedDigit.current}
       </Text>
       {bottomDigits.map((n, i) => (
         <Text
-          style={{
-            position: 'absolute',
-            fontSize: 24,
-            bottom: -(24 * (i + 1)),
-          }}
+          style={[
+            style,
+            {
+              fontSize: fontSize,
+              position: 'absolute',
+              bottom: -(fontSize * (i + 1)),
+            },
+          ]}
           key={n}
         >
           {n}

@@ -2,20 +2,35 @@
 
 React Native package for money animation
 
+
 ## Installation
 
 ```sh
 npm install react-native-money-animation
 ```
+or
+```sh
+yarn add react-native-money-animation
+```
+
 
 ## Usage
 
-```js
-import { multiply } from 'react-native-money-animation';
+```tsx
+import MoneyAnimation from 'react-native-money-animation';
 
-// ...
+const App = () => {
+  const [value, setValue] = useState<number>(329.06);
 
-const result = await multiply(3, 7);
+  return (
+    <MoneyAnimation value={value} style={{
+      fontSize: 52,
+      fontWeight: 700,
+      lineHeight: 60,
+      color: '#fff'
+    }} />
+  )
+}
 ```
 
 ## Contributing
