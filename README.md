@@ -2,7 +2,7 @@
 
 React Native package for money animation
 
-![](https://github.com/PrimeWeb-Ltd/react-native-money-animation/blob/main/example.gif)
+<img src="https://github.com/PrimeWeb-Ltd/react-native-money-animation/blob/main/example.gif" width="100%" height="300"/>
 
 ## Installation
 
@@ -38,26 +38,38 @@ const App = () => {
 
 ### value
 Type: Number
+
 Required: True
+
 Default: -
+
 The amount value to be presented
 
 ### style
 Type: StyleProp<TextStyle>
+
 Required: False
+
 Default: { fontSize: 24, lineHeight: 32 }
+
 Style prop for every digit/symbol
 
 ### wrapperStyle
 Type: StyleProp<ViewStyle>
+
 Required: False
+
 Default: -
+
 Style prop for the view wrapper of the amount
 
 ### separator
 Type: String
+
 Required: false
+
 Default: ','
+
 Money separator symbol, useful to change to dot or use default comma.
 
 ## Contributing
