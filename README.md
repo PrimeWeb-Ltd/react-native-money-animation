@@ -66,11 +66,29 @@ Style prop for the view wrapper of the amount
 ### separator
 Type: String
 
-Required: false
+Required: False
 
 Default: ','
 
 Money separator symbol, useful to change to dot or use default comma.
+
+### easing
+Type: EasingFunction
+
+Required: False
+
+Default: Easing.out(Easing.exp)
+
+Easing function for the animation
+
+### duration
+Type: Number
+
+Required: False
+
+Default: 1200
+
+The duration of the animation in milliseconds
 
 ## Contributing
 

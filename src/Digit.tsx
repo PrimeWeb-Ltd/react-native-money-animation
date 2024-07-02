@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Text, Animated, StyleSheet } from 'react-native';
-import type { StyleProp, TextStyle } from 'react-native';
+import { Text, Animated, StyleSheet, Easing } from 'react-native';
+import type { StyleProp, TextStyle, EasingFunction } from 'react-native';
 import { generateNumbersFrom, isSpecialChar } from './utils/digits';
 
 interface DigitProps {
   digit: string;
   style: StyleProp<TextStyle>;
   separator?: string;
+  duration?: number;
+  easing?: EasingFunction;
 }
 
-const Digit = ({ digit, style, separator }: DigitProps) => {
+const Digit = ({ digit, style, separator, easing, duration }: DigitProps) => {
   const cachedDigit = useRef<string>(digit);
   const transition = useRef(new Animated.Value(0)).current;
   const [topDigits, setTopDigits] = useState<number[]>(
@@ -32,8 +34,9 @@ const Digit = ({ digit, style, separator }: DigitProps) => {
       if (topIndex < bottomIndex) {
         Animated.timing(transition, {
           toValue: (topIndex + 1) * lineHeight,
-          duration: 600,
+          duration: duration || 1200,
           useNativeDriver: true,
+          easing: easing || Easing.out(Easing.exp),
         }).start(({ finished }) => {
           if (finished) {
             cachedDigit.current = digit;
@@ -45,8 +48,9 @@ const Digit = ({ digit, style, separator }: DigitProps) => {
       } else {
         Animated.timing(transition, {
           toValue: -(bottomIndex + 1) * lineHeight,
-          duration: 600,
+          duration: duration || 1200,
           useNativeDriver: true,
+          easing: easing || Easing.out(Easing.exp),
         }).start(({ finished }) => {
           if (finished) {
             cachedDigit.current = digit;

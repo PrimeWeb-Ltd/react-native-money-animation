@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import type { StyleProp, ViewStyle, TextStyle } from 'react-native';
+import type {
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+  EasingFunction,
+} from 'react-native';
 import Digit from './Digit';
 
 interface MoneyAnimationProps {
@@ -8,6 +13,8 @@ interface MoneyAnimationProps {
   wrapperStyle?: StyleProp<ViewStyle>;
   style?: StyleProp<TextStyle>;
   separator?: string;
+  easing?: EasingFunction;
+  duration?: number;
 }
 
 const MoneyAnimation = ({
@@ -15,6 +22,8 @@ const MoneyAnimation = ({
   wrapperStyle,
   style,
   separator,
+  easing,
+  duration,
 }: MoneyAnimationProps) => {
   const [numbers, setNumbers] = useState<string[]>(
     value.toFixed(2).split('').reverse()
@@ -25,7 +34,7 @@ const MoneyAnimation = ({
   }, [value]);
 
   return (
-    <View style={[, initialStyles.container, wrapperStyle]}>
+    <View style={[initialStyles.container, wrapperStyle]}>
       {numbers.map((num, index) => {
         return (
           <Digit
@@ -33,6 +42,8 @@ const MoneyAnimation = ({
             digit={num}
             style={style}
             separator={separator || ','}
+            easing={easing}
+            duration={duration}
           />
         );
       })}
