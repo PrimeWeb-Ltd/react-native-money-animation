@@ -18,7 +18,9 @@ const Digit = ({ digit, style, separator }: DigitProps) => {
   const [bottomDigits, setBottomDigits] = useState<number[]>(
     generateNumbersFrom(Number(digit), false)
   );
-  const fontSize = StyleSheet.flatten(style)?.fontSize || 24;
+  const flattenStyle = StyleSheet.flatten(style) || {};
+  const fontSize = flattenStyle.fontSize || 24;
+  const lineHeight = flattenStyle.lineHeight || 32;
 
   useEffect(() => {
     if (!isSpecialChar(digit) && digit !== cachedDigit.current) {
@@ -29,7 +31,7 @@ const Digit = ({ digit, style, separator }: DigitProps) => {
 
       if (topIndex < bottomIndex) {
         Animated.timing(transition, {
-          toValue: (topIndex + 1) * fontSize,
+          toValue: (topIndex + 1) * lineHeight,
           duration: 600,
           useNativeDriver: true,
         }).start(({ finished }) => {
@@ -42,7 +44,7 @@ const Digit = ({ digit, style, separator }: DigitProps) => {
         });
       } else {
         Animated.timing(transition, {
-          toValue: -(bottomIndex + 1) * fontSize,
+          toValue: -(bottomIndex + 1) * lineHeight,
           duration: 600,
           useNativeDriver: true,
         }).start(({ finished }) => {
@@ -76,8 +78,9 @@ const Digit = ({ digit, style, separator }: DigitProps) => {
             style,
             {
               position: 'absolute',
-              top: -(fontSize * (i + 1)),
+              top: -(lineHeight * (i + 1)),
               fontSize: fontSize,
+              lineHeight: lineHeight,
             },
           ]}
           key={n}
@@ -90,6 +93,7 @@ const Digit = ({ digit, style, separator }: DigitProps) => {
           style,
           {
             fontSize: fontSize,
+            lineHeight: lineHeight,
           },
         ]}
       >
@@ -101,8 +105,9 @@ const Digit = ({ digit, style, separator }: DigitProps) => {
             style,
             {
               fontSize: fontSize,
+              lineHeight: lineHeight,
               position: 'absolute',
-              bottom: -(fontSize * (i + 1)),
+              bottom: -(lineHeight * (i + 1)),
             },
           ]}
           key={n}

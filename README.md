@@ -34,6 +34,32 @@ const App = () => {
 }
 ```
 
+## API
+
+### value
+Type: Number
+Required: True
+Default: -
+The amount value to be presented
+
+### style
+Type: StyleProp<TextStyle>
+Required: False
+Default: { fontSize: 24, lineHeight: 32 }
+Style prop for every digit/symbol
+
+### wrapperStyle
+Type: StyleProp<ViewStyle>
+Required: False
+Default: -
+Style prop for the view wrapper of the amount
+
+### separator
+Type: String
+Required: false
+Default: ','
+Money separator symbol, useful to change to dot or use default comma.
+
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
