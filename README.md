@@ -2,7 +2,7 @@
 
 React Native package for money animation
 
-<img src="https://github.com/PrimeWeb-Ltd/react-native-money-animation/blob/main/example.gif" width="100%" height="300"/>
+<img src="https://github.com/PrimeWeb-Ltd/react-native-money-animation/blob/main/example.gif" height="400"/>
 
 ## Installation
 
