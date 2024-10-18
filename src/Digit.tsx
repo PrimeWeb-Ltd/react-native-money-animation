@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Text, Animated, StyleSheet, Easing } from 'react-native';
 import type { StyleProp, TextStyle, EasingFunction } from 'react-native';
 import { generateNumbersFrom, isSpecialChar } from './utils/digits';
+import { PixelRatio } from 'react-native';
 
 interface DigitProps {
   digit: string;
@@ -20,9 +21,10 @@ const Digit = ({ digit, style, separator, easing, duration }: DigitProps) => {
   const [bottomDigits, setBottomDigits] = useState<number[]>(
     generateNumbersFrom(Number(digit), false)
   );
+  const fontScale = PixelRatio.getFontScale();
   const flattenStyle = StyleSheet.flatten(style) || {};
   const fontSize = flattenStyle.fontSize || 24;
-  const lineHeight = flattenStyle.lineHeight || 32;
+  const lineHeight = (flattenStyle.lineHeight || 32) * fontScale;
 
   useEffect(() => {
     if (!isSpecialChar(digit) && digit !== cachedDigit.current) {
@@ -62,14 +64,15 @@ const Digit = ({ digit, style, separator, easing, duration }: DigitProps) => {
       }
     }
   }, [digit]); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <Animated.View
       style={[
         initialStyles.wrapper,
         {
           width: isSpecialChar(digit)
-            ? (fontSize * 32) / 100
-            : (fontSize * 62) / 100,
+            ? ((fontSize * 32) / 100) * fontScale
+            : ((fontSize * 62) / 100) * fontScale,
         },
         {
           transform: [{ translateY: transition }],
